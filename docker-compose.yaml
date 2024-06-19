@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: "postgrezxc"
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: zxc
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+    networks:
+      - app
+  app:
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    container_name: "appzxc"
+    depends_on:
+      - db
+    ports:
+      - "8111:8111"
+    networks:
+      - app
+networks:
+  app:
